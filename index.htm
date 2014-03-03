@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="weather-icons/css/weather-icons.css">
+		<link rel="stylesheet" type="text/css" href="css/wtw.css">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>		
+	</head>
+	<body>
+		<div class="container">
+			<div class="wi-night-alt-cloudy-gusts"></div>
+		</div>
+		
+		<script type="text/javascript">
+			(function () {
+				$(".container").hover(
+					function () {
+						$(this).css("animation", "hover-in-glow 5s")
+					},
+					function () {
+						$(this).css("animation", "hover-out-glow 5s")
+					}
+				);
+			}());
+		</script>
+	</body>
+</html>

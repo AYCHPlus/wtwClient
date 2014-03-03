@@ -1,0 +1,16 @@
+@-webkit-keyframes hover-in-glow
+{
+	0% { color: black; }
+	100% { color: red; }
+}
+
+@-webkit-keyframes hover-out-glow
+{
+	0% { color: red; }
+	100% { color: black; }
+}
+
+.container {
+	text-align: center;
+	font-size: 3em;
+}
