@@ -1,0 +1,14 @@
+<div ng-controller="ReportCtrl">
+  <ul>
+    <table>
+      <tr>
+        <th></th>
+        <th ng-repeat="forecastTime in forecastTimes">{{forecastTime}}</th>
+      </tr>
+      <tr ng-repeat="(aheadIndex, aheadTime) in aheadTimes">
+        <td>{{aheadTime}} hours ago</td>
+        <td ng-repeat="(forecastIndex, forecastTime) in forecasts" class="{{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">{{forecasts[forecastIndex][aheadIndex].temp}}</td>
+      </tr>
+    </table>
+  </ul>
+</div>
