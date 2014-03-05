@@ -28,3 +28,27 @@
   content: "";
   padding: 0;
 }
+
+/* Report formatting */
+table, th, td {
+	border: 1px solid;
+}
+
+table {
+	margin: auto;
+}
+
+th, td {
+	width: 5%;
+}
+
+td {
+	text-align: center;
+}
+
+/* Weather icons */
+[class^="wi-"]:before,
+[class*=" wi-"]:before {
+	font-size: 2.5rem;
+	display: block; /* Ensure weather icons appear on own line */
+}
