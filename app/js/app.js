@@ -7,7 +7,8 @@ angular.module('wtwApp', [
   'wtwApp.filters',
   'wtwApp.services',
   'wtwApp.directives',
-  'wtwApp.controllers'
+  'wtwApp.controllers',
+  'wtwApp.animations'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/report', {templateUrl: 'partials/report.html', controller: 'ReportCtrl'});

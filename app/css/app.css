@@ -30,20 +30,23 @@
 }
 
 /* Report formatting */
-table, th, td {
-	border: 1px solid;
+table {
+	/* border: 1px solid; */
+	border-spacing: 0;
 }
 
 table {
 	margin: auto;
 }
 
-th, td {
-	width: 5%;
-}
-
 td {
 	text-align: center;
+}
+
+/* Cells need to start of hidden */
+.forecast-animation {
+	width: 0;
+    max-width: 0
 }
 
 /* Weather icons */

@@ -116,7 +116,7 @@
     $scope.forecastFreq = 3;
     
     $scope.aheadFreqs = [1, 3, 6, 12, 24];
-    $scope.aheadMaxCount = 9;
+    $scope.aheadMaxCount = 5;
     $scope.aheadFreq = 3;
     
     doQuery();
