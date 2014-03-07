@@ -52,7 +52,7 @@
       var end = new Date();
       end.setDate(end.getDate() + maxDays);
       
-      var query = 'http://desktop:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
+      var query = 'http://www.vincibleweb.com:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
       
       var promise = $http.get(query);    
       promise.success(onQuerySuccess);
