@@ -9,6 +9,8 @@
   controllers.controller('MyCtrl2', [function() {}]);
   
   function ReportCtrl($scope, $http, $filter) {
+    var queryReceived = false;
+    
     //Return array of days. Each day has a name, and number of forecasts that day.
     function getForecastDays() {
       var days = [];
@@ -16,21 +18,41 @@
       var i, lastDay, currentDay;      
       
       // If report has been received
-      if ($scope.availableForecastFreq) {
-        for (i = $scope.forecastOffset; i < times.length; ++i) {
-          currentDay = $filter('date')(times[i], 'EEE');
-          
-          // If we are showing this forecast
-          if ($scope.shouldShowForecast(i)) {
-            if (currentDay !== lastDay) {
-              lastDay = currentDay;
-              days.push({ name: currentDay, forecastCount: 0 });
-            }
-            days[days.length - 1].forecastCount++;
+      if (queryReceived) {
+        for (i = 0; i < $scope.forecastIndices.length; ++i) {
+          currentDay = $filter('date')(times[$scope.forecastIndices[i]], 'EEE');
+          if (currentDay !== lastDay) {
+            lastDay = currentDay;
+            days.push({ name: currentDay, forecastCount: 0 });
           }
+          days[days.length - 1].forecastCount++;
         }
       }
       return days;      
+    };
+    
+    function getForecastIndices() {
+      var forecastIndices = [];
+      var i;
+      
+      if (queryReceived) {
+        for (i = $scope.forecastOffset; forecastIndices.length < $scope.forecastMaxCount; i += (parseInt($scope.forecastFreq) / $scope.availableForecastFreq)) {
+          forecastIndices.push(i);
+        }
+      }
+      
+      return forecastIndices;
+    };
+    
+    function getAheadIndices() {
+      var aheadIndices = [];
+      var i;
+      
+      for (i = 0; aheadIndices.length < $scope.aheadMaxCount; i += parseInt($scope.aheadFreq)) {
+        aheadIndices.push(i);
+      }
+      
+      return aheadIndices;
     };
     
     function onQuerySuccess(data) {
@@ -38,8 +60,11 @@
       $scope.forecastTimes = data.forecastTimes;
       $scope.aheadTimes = data.aheadTimes;
       $scope.forecasts = data.forecasts;
-      
-      $scope.forecastDays = getForecastDays(); 
+      queryReceived = true;
+
+      $scope.forecastIndices = getForecastIndices();
+      $scope.aheadIndices = getAheadIndices();
+      $scope.forecastDays = getForecastDays();
     }
     
     // Query weather data for +/- maxDays from now
@@ -56,29 +81,6 @@
       
       var promise = $http.get(query);    
       promise.success(onQuerySuccess);
-    };
-    
-    $scope.shouldShowAheadTime = function(aheadIndex) {
-      var isValidFreq = ((aheadIndex % $scope.aheadFreq) === 0);
-      var isLessThanMaxCount = ((aheadIndex / $scope.aheadFreq) < $scope.aheadMaxCount);
-      return isValidFreq && isLessThanMaxCount;
-    };
-    
-    $scope.shouldShowForecast = function(forecastIndex) {
-      // If forecasts only available every 3 hours, and user has set a forecast frequency of 3 hours,
-      // that is an effective forecast frequency of 1 
-      var effectiveForecastFreq = $scope.forecastFreq / $scope.availableForecastFreq;
-      var effectiveForecastIndex = forecastIndex - $scope.forecastOffset;
-      
-      var isValidOffset = (forecastIndex >= $scope.forecastOffset);
-      
-      // Use actual index when testing for valid frequency
-      var isValidFreq = ((forecastIndex % effectiveForecastFreq) === 0);
-      
-      // Take offset into account when calculating maximum
-      var isLessThanMaxCount = ((effectiveForecastIndex / effectiveForecastFreq) < $scope.forecastMaxCount);
-      
-      return isValidOffset && isValidFreq && isLessThanMaxCount;
     };
     
     $scope.onEarlier = function() {
@@ -101,11 +103,17 @@
     // Do not bind result of getForecastDays() directly, as a new array returned each time
     // is counted as a change, resulting in a $digest infinite loop
     $scope.$watch('forecastFreq', function() {
+      $scope.forecastIndices = getForecastIndices();
       $scope.forecastDays = getForecastDays();
     });
     
     $scope.$watch('forecastOffset', function() {
+      $scope.forecastIndices = getForecastIndices();
       $scope.forecastDays = getForecastDays();
+    });
+    
+    $scope.$watch('aheadFreq', function() {
+      $scope.aheadIndices = getAheadIndices();
     });
     
     $scope.showTemps = true;
@@ -114,10 +122,12 @@
     $scope.forecastMaxCount = 5;
     $scope.forecastOffset = 0;
     $scope.forecastFreq = 3;
+    $scope.forecastIndices = [];
     
     $scope.aheadFreqs = [1, 3, 6, 12, 24];
     $scope.aheadMaxCount = 5;
     $scope.aheadFreq = 3;
+    $scope.aheadIndices = [];
     
     doQuery();
   };

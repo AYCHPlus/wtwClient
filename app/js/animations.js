@@ -8,7 +8,8 @@
   
   module.animation('.forecast-animation', function() {
     var duration = 600;
-    var easing = "easeInOutQuad";
+    var easing = 'easeInOutQuad';
+    var colWidth = '80px';
     
     return {
       enter: function(element, done) {
@@ -20,8 +21,8 @@
         
         function animateEnter() {
           $(element).animate({
-            'width': '5rem',
-            'max-width': '5rem'
+            'width': colWidth,
+            'max-width': colWidth
           }, duration, easing, function() {
             $(element).animate({
               'opacity': '1'
@@ -37,8 +38,8 @@
       leave: function(element, done) {
         element.css({
           'opacity': '1',
-          'width': '5rem',
-          'max-width': '5rem'
+          'width': colWidth,
+          'max-width': colWidth
         });
         $(element).animate({
           'opacity': '0'

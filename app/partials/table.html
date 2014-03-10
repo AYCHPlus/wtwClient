@@ -31,21 +31,21 @@
     </tr -->
     <!-- Time row -->
     <tr>
-      <th></th>
-      <th ng-repeat="forecastTime in forecastTimes" ng-if="shouldShowForecast($index)" class="forecast-animation">
-        {{forecastTime | date: 'ha'}}
+      <th style="width: 80px; max-width: 80px"></th>
+      <th ng-repeat="forecastIndex in forecastIndices" class="forecast-animation">
+        {{forecastTimes[forecastIndex] | date: 'ha'}}
       </th>
     </tr>
     <!-- Forecast rows -->
-    <tr ng-repeat="(aheadIndex, aheadTime) in aheadTimes" ng-if="shouldShowAheadTime($index)">
+    <tr ng-repeat="aheadIndex in aheadIndices">
       <th>        
         <span ng-if="$first">Actual</span>
-        <span ng-if="!$first">{{aheadTime}}hr</span>
+        <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
       </th>
-      <td ng-repeat="(forecastIndex, forecastTime) in forecasts" ng-if="shouldShowForecast($index)" ng-init="fc = forecasts[forecastIndex][aheadIndex]" class="forecast-animation {{fc.weather_icon_name}}">
+      <td ng-repeat="forecastIndex in forecastIndices" class="forecast-animation {{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">
         <!-- If non-empty forecast -->
-        <span ng-if="fc.query_time">
-          <span ng-if="showTemps">{{fc.temp}}&deg;C</span>
+        <span ng-if="forecasts[forecastIndex][aheadIndex].query_time">
+          <span ng-if="showTemps">{{forecasts[forecastIndex][aheadIndex].temp}}&deg;C</span>
         </span>
       </td>
     </tr>

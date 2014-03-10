@@ -1,0 +1,40 @@
+<div ng-controller="ReportCtrl">
+
+  <label>Show temperatures:</label>
+  <input type="checkbox" ng-model="showTemps">
+  <br>
+  
+  <label>Show forecast times:</label>
+  <span ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq">
+    <input type="radio" ng-model="$parent.$parent.forecastFreq" value="{{freq}}">Every {{freq}} hr
+  </span>
+  <br>
+  
+  <button ng-click="onEarlier()">Earlier</button>
+  <button ng-click="onLater()">Later</button>
+  <br>
+  
+  <label>Show ahead times:</label>
+  <span ng-repeat="freq in aheadFreqs">
+    <input type="radio" ng-model="$parent.aheadFreq" value="{{freq}}">Every {{freq}} hr
+  </span>
+  <br>
+  <br>
+  
+  <div id="forecast-table">
+    <div id="ahead-time-column">
+      <div ng-repeat="aheadIndex in aheadIndices" style="position: absolute; -webkit-transform: translate3d(0rem, {{$index * 5}}rem, 0rem);">
+        <span ng-if="$first">Actual</span>
+        <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
+      </div>
+    </div>
+    <div ng-repeat="forecastIndex in forecastIndices" ng-init="outerIndex = $index" class="forecast-time-column">
+      <div ng-repeat="aheadIndex in aheadIndices" style="position: absolute; -webkit-transform: translate3d({{(outerIndex + 1) * 5}}rem, {{$index * 5}}rem, 0rem);" class="forecast {{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">
+        <span ng-if="forecasts[forecastIndex][aheadIndex].query_time">
+          <span ng-if="showTemps">{{forecasts[forecastIndex][aheadIndex].temp}}&deg;C</span>
+        </span>
+      </div>
+    </div>
+  </div>
+  
+</div>
