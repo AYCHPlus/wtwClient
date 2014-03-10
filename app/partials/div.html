@@ -28,7 +28,7 @@
         <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
       </div>
     </div>
-    <div ng-repeat="forecastIndex in forecastIndices" ng-init="outerIndex = $index" class="forecast-time-column">
+    <div ng-repeat="(outerIndex, forecastIndex) in forecastIndices" class="forecast forecast-time-column">
       <div ng-repeat="aheadIndex in aheadIndices" style="position: absolute; -webkit-transform: translate3d({{(outerIndex + 1) * 5}}rem, {{$index * 5}}rem, 0rem);" class="forecast {{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">
         <span ng-if="forecasts[forecastIndex][aheadIndex].query_time">
           <span ng-if="showTemps">{{forecasts[forecastIndex][aheadIndex].temp}}&deg;C</span>

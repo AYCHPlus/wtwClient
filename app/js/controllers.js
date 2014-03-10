@@ -121,7 +121,7 @@
     $scope.forecastFreqs = [1, 3, 6, 12, 24];
     $scope.forecastMaxCount = 5;
     $scope.forecastOffset = 0;
-    $scope.forecastFreq = 3;
+    $scope.forecastFreq = 6;
     $scope.forecastIndices = [];
     
     $scope.aheadFreqs = [1, 3, 6, 12, 24];

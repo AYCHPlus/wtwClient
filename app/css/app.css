@@ -51,6 +51,26 @@ td {
     max-width: 80px;
 }
 
+.forecast {
+	-webkit-transition: all 0.6s ease-in-out;
+}
+
+.forecast.ng-enter {
+	opacity: 0;
+}
+
+.forecast.ng-enter-active {
+	opacity: 1;
+}
+
+.forecast.ng-leave {
+	opacity: 1;
+}
+
+.forecast.ng-leave.ng-leave-active {
+	opacity: 0;
+}
+
 /* Weather icons */
 [class^="wi-"]:before,
 [class*=" wi-"]:before {
