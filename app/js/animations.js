@@ -56,4 +56,20 @@
       }
     };
   });
+  
+  module.animation('.forecast', function() {
+    return {
+      enter: function(element, done) {
+        done();
+      },
+      
+      leave: function(element, done) {
+        done();
+      },
+      
+      move: function(element, done) {
+        done();
+      }
+    };
+  });
 }());

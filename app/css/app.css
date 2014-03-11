@@ -51,11 +51,20 @@ td {
     max-width: 80px;
 }
 
+/*
+Animations:
+
+All transitions last the same time. Leave is immediate, move is delayed until
+leave completes, and enter is delayed until move completes.
+*/
 .forecast {
-	-webkit-transition: all 0.6s ease-in-out;
+	transition: transform 0.25s 0.25s ease-in-out; /* ng-move */
+	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out; /* ng-move */
 }
 
 .forecast.ng-enter {
+	transition: opacity 0.25s 0.5s ease-in-out;
+	-webkit-transition: opacity 0.25s 0.5s ease-in-out;
 	opacity: 0;
 }
 
@@ -64,6 +73,8 @@ td {
 }
 
 .forecast.ng-leave {
+	transition: opacity 0.25s 0s ease-in-out;
+	-webkit-transition: opacity 0.25s 0s ease-in-out;
 	opacity: 1;
 }
 
