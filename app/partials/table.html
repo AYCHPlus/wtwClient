@@ -32,7 +32,7 @@
     <!-- Time row -->
     <tr>
       <th style="width: 80px; max-width: 80px"></th>
-      <th ng-repeat="forecastIndex in forecastIndices" class="forecast-animation">
+      <th ng-repeat="forecastIndex in forecastIndices" class="forecast-table-animation">
         {{forecastTimes[forecastIndex] | date: 'ha'}}
       </th>
     </tr>
@@ -42,7 +42,7 @@
         <span ng-if="$first">Actual</span>
         <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
       </th>
-      <td ng-repeat="forecastIndex in forecastIndices" class="forecast-animation {{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">
+      <td ng-repeat="forecastIndex in forecastIndices" class="forecast-table-animation {{forecasts[forecastIndex][aheadIndex].weather_icon_name}}">
         <!-- If non-empty forecast -->
         <span ng-if="forecasts[forecastIndex][aheadIndex].query_time">
           <span ng-if="showTemps">{{forecasts[forecastIndex][aheadIndex].temp}}&deg;C</span>

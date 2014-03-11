@@ -46,9 +46,13 @@ td {
 }
 
 /* Cells need to start off visible */
-.forecast-animation {
+.forecast-table-animation {
 	width: 80px;
     max-width: 80px;
+}
+
+.forecast-day {
+	text-align: center;
 }
 
 /*
@@ -57,28 +61,29 @@ Animations:
 All transitions last the same time. Leave is immediate, move is delayed until
 leave completes, and enter is delayed until move completes.
 */
-.forecast {
-	transition: transform 0.25s 0.25s ease-in-out; /* ng-move */
-	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out; /* ng-move */
+.forecast-div-animation {
+	position: absolute;
+	transition: transform 0.25s 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
+	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
 }
 
-.forecast.ng-enter {
+.forecast-div-animation.ng-enter {
 	transition: opacity 0.25s 0.5s ease-in-out;
 	-webkit-transition: opacity 0.25s 0.5s ease-in-out;
 	opacity: 0;
 }
 
-.forecast.ng-enter-active {
+.forecast-div-animation.ng-enter-active {
 	opacity: 1;
 }
 
-.forecast.ng-leave {
+.forecast-div-animation.ng-leave {
 	transition: opacity 0.25s 0s ease-in-out;
 	-webkit-transition: opacity 0.25s 0s ease-in-out;
 	opacity: 1;
 }
 
-.forecast.ng-leave.ng-leave-active {
+.forecast-div-animation.ng-leave.ng-leave-active {
 	opacity: 0;
 }
 

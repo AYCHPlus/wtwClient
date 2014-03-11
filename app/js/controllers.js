@@ -23,7 +23,7 @@
           currentDay = $filter('date')(times[$scope.forecastIndices[i]], 'EEE');
           if (currentDay !== lastDay) {
             lastDay = currentDay;
-            days.push({ name: currentDay, forecastCount: 0 });
+            days.push({ name: currentDay, forecastCount: 0, previousForecastCount: i });
           }
           days[days.length - 1].forecastCount++;
         }
@@ -96,6 +96,19 @@
       if ($scope.forecastOffset > maxForecastOffset) {
         $scope.forecastOffset = maxForecastOffset;
       }
+    };
+    
+    // translate3d({{(outerIndex + 1) * 5}}rem, {{$index * 5}}rem, 0rem)
+    $scope.getTransform = function(xIndex, yIndex, width) {
+      var translation = 'translate3d(' + (xIndex * 5) + 'rem, ' + (yIndex * 5) + 'rem, 0rem)';
+      var transform = {
+        'transform': translation,
+        '-webkit-transform': translation
+      };
+      if (width) {
+        transform.width = (width * 5) + 'rem';
+      }
+      return transform;
     };
     
     // If user updates forecast frequency via DOM, need to trigger update of forecastDays,
