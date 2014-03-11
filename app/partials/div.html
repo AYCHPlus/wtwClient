@@ -1,44 +1,51 @@
-<div ng-controller="ReportCtrl">
+<label>Show temperatures:</label>
+<input type="checkbox" ng-model="showTemps">
+<br>
 
-  <label>Show temperatures:</label>
-  <input type="checkbox" ng-model="showTemps">
-  <br>
-  
-  <label>Show forecast times:</label>
-  <span ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq">
-    <input type="radio" ng-model="$parent.$parent.forecastFreq" value="{{freq}}">Every {{freq}} hr
-  </span>
-  <br>
-  
-  <button ng-click="onEarlier()">Earlier</button>
-  <button ng-click="onLater()">Later</button>
-  <br>
-  
-  <label>Show ahead times:</label>
-  <span ng-repeat="freq in aheadFreqs">
-    <input type="radio" ng-model="$parent.aheadFreq" value="{{freq}}">Every {{freq}} hr
-  </span>
-  <br>
-  <br>
-  
-  <div id="forecast-table">
-    <div ng-repeat="forecastDay in forecastDays track by forecastDay.name" ng-style="getTransform(forecastDay.previousForecastCount + 1, 0, forecastDay.forecastCount);" class="forecast-day forecast-div-animation">
-      {{forecastDay.name}}
-    </div>
-    <div ng-repeat="forecastIndex in forecastIndices" ng-style="getTransform($index + 1, 0.5);" class="forecast-div-animation">
-      {{forecastTimes[forecastIndex] | date: 'ha'}}
-    </div>
-    <div ng-repeat="aheadIndex in aheadIndices" ng-style="getTransform(0, $index + 1);" class="forecast-div-animation">
-      <span ng-if="$first">Actual</span>
-      <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
-    </div>
-    <div ng-repeat="(outerIndex, forecastIndex) in forecastIndices" class="forecast-div-animation">
-      <div ng-repeat="aheadIndex in aheadIndices" ng-init="fc = forecasts[forecastIndex][aheadIndex]" ng-style="getTransform(outerIndex + 1, $index + 1);" class="forecast-div-animation {{fc.weather_icon_name}}">
-        <span ng-if="fc.query_time">
-          <span ng-if="showTemps">{{fc.temp}}&deg;C</span>
-        </span>
-      </div>
-    </div>
+<label>Show forecast times:</label>
+<span ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq">
+  <input type="radio" ng-model="$parent.$parent.forecastFreq" value="{{freq}}">Every {{freq}} hr
+</span>
+<br>
+
+<button ng-click="onEarlier()">Earlier</button>
+<button ng-click="onLater()">Later</button>
+<br>
+
+<label>Show ahead times:</label>
+<span ng-repeat="freq in aheadFreqs">
+  <input type="radio" ng-model="$parent.aheadFreq" value="{{freq}}">Every {{freq}} hr
+</span>
+<br>
+<br>
+
+<div id="forecast-table">
+
+  <!-- Day row -->
+  <div ng-repeat="forecastDay in forecastDays track by forecastDay.name" ng-style="getTransform(forecastDay.previousForecastCount + 1, 0, forecastDay.forecastCount);" class="forecast-day forecast-div-animation">
+    {{forecastDay.name}}
   </div>
   
+  <!-- Ahead time column -->
+  <div ng-repeat="aheadIndex in aheadIndices" ng-style="getTransform(0, $index + 1);" class="ahead-time forecast-div-animation">
+    <span ng-if="$first">Actual</span>
+    <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
+  </div>
+  
+  <!-- Forecast columns -->
+  <div ng-repeat="(outerIndex, forecastIndex) in forecastIndices" class="forecast-column forecast-div-animation">
+  
+    <!-- Forecast time row -->
+    <div ng-style="getTransform($index + 1, 0.5);" class="forecast-time forecast-div-animation">
+      {{forecastTimes[forecastIndex] | date: 'ha'}}
+    </div>
+    
+    <!-- Forecast row -->
+    <div ng-repeat="aheadIndex in aheadIndices" ng-init="fc = forecasts[forecastIndex][aheadIndex]" ng-style="getTransform(outerIndex + 1, $index + 1);" class="forecast forecast-div-animation {{fc.weather_icon_name}}">
+      <span ng-if="fc.query_time">
+        <span ng-if="showTemps">{{fc.temp}}&deg;C</span>
+      </span>
+    </div>
+    
+  </div>
 </div>

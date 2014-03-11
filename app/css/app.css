@@ -51,8 +51,25 @@ td {
     max-width: 80px;
 }
 
-.forecast-day {
+#forecast-table {
+	position: relative; /* Allow child elements to be positioned/sized relative to table */
+	margin: auto;
+	width: 62%;
+}
+
+.forecast-day,
+.forecast-time,
+.forecast {
 	text-align: center;
+}
+
+.forecast-column {
+	width: 5rem;
+}
+
+.forecast-time,
+.forecast {
+	width: 100%;
 }
 
 /*

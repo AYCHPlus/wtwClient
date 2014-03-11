@@ -98,7 +98,6 @@
       }
     };
     
-    // translate3d({{(outerIndex + 1) * 5}}rem, {{$index * 5}}rem, 0rem)
     $scope.getTransform = function(xIndex, yIndex, width) {
       var translation = 'translate3d(' + (xIndex * 5) + 'rem, ' + (yIndex * 5) + 'rem, 0rem)';
       var transform = {
@@ -108,6 +107,7 @@
       if (width) {
         transform.width = (width * 5) + 'rem';
       }
+        
       return transform;
     };
     
