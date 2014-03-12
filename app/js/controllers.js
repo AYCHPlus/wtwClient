@@ -98,14 +98,14 @@
       }
     };
     
-    $scope.getTransform = function(xIndex, yIndex, width) {
-      var translation = 'translate3d(' + (xIndex * 5) + 'rem, ' + (yIndex * 5) + 'rem, 0rem)';
+    $scope.getCellStyle = function(cell) {
+      var translation = 'translate3d(' + (cell.col * 5) + 'rem, ' + (cell.row * 5) + 'rem, 0rem)';
       var transform = {
         'transform': translation,
         '-webkit-transform': translation
       };
-      if (width) {
-        transform.width = (width * 5) + 'rem';
+      if (cell.colspan) {
+        transform.width = (cell.colspan * 5) + 'rem';
       }
         
       return transform;
