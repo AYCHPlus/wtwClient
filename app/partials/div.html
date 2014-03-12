@@ -19,49 +19,57 @@
 <br>
 <br>
 
-<div ng-repeat="(rowIndex, aheadIndex) in ['day-row', 'time-row'].concat(aheadIndices)" ng-switch on="aheadIndex">
-
-  <div ng-switch-when="day-row">
-    <div ng-repeat="(colIndex, day) in forecastDays track by day.name">
-      ({{rowIndex}}, {{day.previousForecastCount}}): {{day.name}}
-     </div>
-  </div>
+<div id="forecast-table">
+  {{$element}}
+  <div ng-repeat="(rowIndex, aheadIndex) in ['day-row', 'time-row'].concat(aheadIndices)" ng-switch on="aheadIndex">
   
-  <div ng-switch-when="time-row">
-    <div ng-repeat="(colIndex, forecastIndex) in forecastIndices">
-      ({{rowIndex}}, {{colIndex}}): {{forecastTimes[forecastIndex] | date: 'ha'}}
+    <div ng-switch-when="day-row">
+      <div ng-repeat="(colIndex, day) in ['ahead-column'].concat(forecastDays) track by day.name" ng-style="getLayoutStyle({ col: day.previousForecastCount + 1, row: rowIndex, colspan: day.forecastCount });" class="day-cell animate">
+       {{day.name}}
+       </div>
     </div>
-  </div>
-  
-  <div ng-switch-default>
-    <div ng-repeat="(colIndex, forecastIndex) in forecastIndices" ng-init="forecast = forecasts[forecastIndex][aheadIndex]">
-      ({{rowIndex}}, {{colIndex}}): {{forecast.temp}}
+    
+    <div ng-switch-when="time-row">
+      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="time-cell animate">
+        {{forecastTimes[forecastIndex] | date: 'ha'}}
+      </div>
     </div>
+    
+    <div ng-switch-default>
+      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-init="forecast = forecasts[forecastIndex][aheadIndex]" ng-switch on="forecastIndex" class="animate">
+      
+        <div ng-switch-when="ahead-column" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="ahead-cell animate">
+          <span ng-if="aheadIndex === 0">Actual</span>
+          <span ng-if="aheadIndex !== 0">{{aheadTimes[aheadIndex]}}hr</span>
+        </div>
+        
+        <div ng-switch-default ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="forecast-cell animate {{forecast.weather_icon_name}}">
+          <span ng-if="forecast.query_time && showTemps">{{forecast.temp}}&deg;C</span>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </div>
 
+<!--
 <div id="forecast-table">
 
-  <!-- Day row -->
   <div ng-repeat="forecastDay in forecastDays track by forecastDay.name" ng-style="getCellStyle({ col: forecastDay.previousForecastCount + 1, row: 0, colspan: forecastDay.forecastCount });" class="forecast-day forecast-div-animation">
     {{forecastDay.name}}
   </div>
   
-  <!-- Ahead time column -->
   <div ng-repeat="aheadIndex in aheadIndices" ng-style="getCellStyle({ col: 0, row: $index + 1 });" class="ahead-time forecast-div-animation">
     <span ng-if="$first">Actual</span>
     <span ng-if="!$first">{{aheadTimes[aheadIndex]}}hr</span>
   </div>
   
-  <!-- Forecast columns -->
   <div ng-repeat="(outerIndex, forecastIndex) in forecastIndices" style="width: {{100 / (forecastIndices.length + 1)}}%" class="forecast-column forecast-div-animation">
   
-    <!-- Forecast time row -->
     <div ng-style="getCellStyle({ col: $index + 1, row: 0.5 });" class="forecast-time forecast-div-animation">
       {{forecastTimes[forecastIndex] | date: 'ha'}}
     </div>
     
-    <!-- Forecast row -->
     <div ng-repeat="aheadIndex in aheadIndices" ng-init="fc = forecasts[forecastIndex][aheadIndex]" ng-style="getCellStyle({ col: outerIndex + 1, row: $index + 1 });" class="forecast forecast-div-animation {{fc.weather_icon_name}}">
       <span ng-if="fc.query_time">
         <span ng-if="showTemps">{{fc.temp}}&deg;C</span>
@@ -70,3 +78,4 @@
     
   </div>
 </div>
+ -->

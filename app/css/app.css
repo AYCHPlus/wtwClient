@@ -55,6 +55,7 @@ td {
 	position: relative; /* Allow child elements to be positioned/sized relative to table */
 	margin: auto;
 	width: 62%;
+	height: 600px;
 }
 
 .forecast-day,
@@ -66,6 +67,14 @@ td {
 .forecast-time,
 .forecast {
 	width: 100%;
+}
+
+#forecast-table .ahead-cell,
+#forecast-table .day-cell,
+#forecast-table .time-cell,
+#forecast-table .forecast-cell {
+	position: absolute;
+	text-align: center;
 }
 
 /*
@@ -99,6 +108,33 @@ leave completes, and enter is delayed until move completes.
 .forecast-div-animation.ng-leave.ng-leave-active {
 	opacity: 0;
 }
+
+
+#forecast-table .animate {
+	transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
+	-webkit-transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
+}
+
+#forecast-table .animate.ng-enter {
+	transition: opacity 0.25s 0.5s ease-in-out;
+	-webkit-transition: opacity 0.25s 0.5s ease-in-out;
+	opacity: 0;
+}
+
+#forecast-table .animate.ng-enter-active {
+	opacity: 1;
+}
+
+#forecast-table .animate.ng-leave {
+	transition: opacity 0.25s 0s ease-in-out;
+	-webkit-transition: opacity 0.25s 0s ease-in-out;
+	opacity: 1;
+}
+
+#forecast-table .animate.ng-leave.ng-leave-active {
+	opacity: 0;
+}
+
 
 /* Weather icons */
 [class^="wi-"]:before,

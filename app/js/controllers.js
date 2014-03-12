@@ -111,6 +111,25 @@
       return transform;
     };
     
+    $scope.getLayoutStyle = function(cell) {
+      var transform = {};
+      
+      transform.left = ((cell.col / $scope.forecastMaxCount) * 100) + '%';
+      transform.top = ((cell.row / $scope.aheadMaxCount ) * 100) + '%';
+
+      if (cell.colspan) {
+        transform.width = ((cell.colspan / $scope.forecastMaxCount) * 100) + '%';
+      }
+      else
+      {
+        transform.width = ((1 / $scope.forecastMaxCount) * 100) + '%';
+      }
+      
+      transform.height = ((1 / $scope.aheadMaxCount) * 100) + '%';
+        
+      return transform;
+    };
+    
     // If user updates forecast frequency via DOM, need to trigger update of forecastDays,
     // which will in turn trigger DOM update
     // Do not bind result of getForecastDays() directly, as a new array returned each time
