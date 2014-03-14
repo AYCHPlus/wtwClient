@@ -1,5 +1,7 @@
 /* app css stylesheet */
-
+body {
+	font-family: 'Open Sans', sans-serif;
+}
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -51,11 +53,51 @@ td {
     max-width: 80px;
 }
 
+#controls {
+	position: fixed;
+	float: left;
+	left: 5em;
+	top: 5em;
+	z-index: 100; /* Allow mouseleave to work properly */	
+}
+
+#controls-button {
+	width: 1.5em;
+	height: 1.5em;
+}
+
+#controls-menu {
+	transition: opacity 0.25s ease-in-out;
+	-webkit-transition: opacity 0.25s ease-in-out;
+	background-color: rgba(255,255,255,.67);
+}
+
 #forecast-table {
 	position: relative; /* Allow child elements to be positioned/sized relative to table */
 	margin: auto;
-	width: 62%;
+	width: 61.803398875%; /* 1 / golden-ratio */
 	height: 600px;
+}
+
+/* Limit width of forecast table for large screen sizes */
+@media (min-width: 1553.3126292px) { /* 960px * golden-ratio */
+	#forecast-table {
+		width: 960px;
+	}
+}
+
+/* Make better use of available width on smaller screens */
+@media (max-width: 600px) {
+	#forecast-table {
+		width: 80%;
+	}
+}
+
+/* Minimum forecast table width */
+@media (max-width: 450px) {
+	#forecast-table {
+		width: 335px; 
+	}
 }
 
 .forecast-day,
@@ -77,39 +119,19 @@ td {
 	text-align: center;
 }
 
+.vertical-center {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
 /*
 Animations:
 
 All transitions last the same time. Leave is immediate, move is delayed until
 leave completes, and enter is delayed until move completes.
 */
-.forecast-div-animation {
-	position: absolute;
-	transition: transform 0.25s 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
-	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
-}
-
-.forecast-div-animation.ng-enter {
-	transition: opacity 0.25s 0.5s ease-in-out;
-	-webkit-transition: opacity 0.25s 0.5s ease-in-out;
-	opacity: 0;
-}
-
-.forecast-div-animation.ng-enter-active {
-	opacity: 1;
-}
-
-.forecast-div-animation.ng-leave {
-	transition: opacity 0.25s 0s ease-in-out;
-	-webkit-transition: opacity 0.25s 0s ease-in-out;
-	opacity: 1;
-}
-
-.forecast-div-animation.ng-leave.ng-leave-active {
-	opacity: 0;
-}
-
-
 #forecast-table .animate {
 	transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
 	-webkit-transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
