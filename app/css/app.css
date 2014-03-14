@@ -1,6 +1,7 @@
 /* app css stylesheet */
 body {
 	font-family: 'Open Sans', sans-serif;
+	font-size: 150%;
 }
 .menu {
   list-style: none;
@@ -56,8 +57,8 @@ td {
 #controls {
 	position: fixed;
 	float: left;
-	left: 5em;
-	top: 5em;
+	left: 5%;
+	top: 10%;
 	z-index: 100; /* Allow mouseleave to work properly */	
 }
 
@@ -76,7 +77,7 @@ td {
 	position: relative; /* Allow child elements to be positioned/sized relative to table */
 	margin: auto;
 	width: 61.803398875%; /* 1 / golden-ratio */
-	height: 600px;
+	height: 800px;
 }
 
 /* Limit width of forecast table for large screen sizes */
@@ -133,8 +134,8 @@ All transitions last the same time. Leave is immediate, move is delayed until
 leave completes, and enter is delayed until move completes.
 */
 #forecast-table .animate {
-	transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
-	-webkit-transition: left 0.25s 0.25s ease-in-out, top 0.25s ease-in-out, width 0.25s ease-in-out; /* ng-move */
+	transition: transform 0.25s 0.25s ease-in-out; /* ng-move */
+	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out; /* ng-move */
 }
 
 #forecast-table .animate.ng-enter {
@@ -161,6 +162,6 @@ leave completes, and enter is delayed until move completes.
 /* Weather icons */
 [class^="wi-"]:before,
 [class*=" wi-"]:before {
-	font-size: 2.5rem;
+	font-size: 2.5em;
 	display: block; /* Ensure weather icons appear on own line */
 }

@@ -177,19 +177,16 @@
       var transform = {};
       var colCount = $scope.forecastMaxCount + 1; // For ahead column
       var rowCount = $scope.aheadMaxCount + 1; // Day and time rows half height
+      var tableWidth = $('#forecast-table').outerWidth();
+      var colWidth = tableWidth / colCount;
+      var rowHeight = colWidth; // Cell height is same cell width
+      var translate3d = 'translate3d(' + (cell.col * colWidth)+ 'px,' + (getEffeciveRow(cell.row) * rowHeight) + 'px,' + '0px)'; 
       
-      transform.left = ((cell.col / colCount) * 100) + '%';
-      transform.top = ((getEffeciveRow(cell.row) / rowCount) * 100) + '%';
-
-      if (cell.colspan) {
-        transform.width = ((cell.colspan / colCount) * 100) + '%';
-      }
-      else
-      {
-        transform.width = ((1 / colCount) * 100) + '%';
-      }
-      
-      transform.height = ((1 / rowCount) * 100) + '%';
+      transform['transform'] = translate3d;
+      transform['-webkit-transform'] = translate3d;
+  
+      transform.width = (colWidth * (cell.colspan || 1)) + 'px';      
+      transform.height = rowHeight + 'px'; 
         
       return transform;
     };
@@ -226,7 +223,7 @@
     $scope.forecastIndices = [];
     
     $scope.aheadFreqs = [1, 3, 6, 12, 24];
-    $scope.aheadMaxCount = 5;
+    $scope.aheadMaxCount = 6;
     $scope.aheadFreq = 3;
     $scope.aheadIndices = [];
     
