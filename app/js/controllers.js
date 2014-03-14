@@ -4,46 +4,23 @@
 (function () {
   var controllers = angular.module('wtwApp.controllers', []);
   
-  controllers.controller('ReportCtrl', ['$scope', '$http', '$filter', ReportCtrl]);
+  controllers.controller('ReportCtrl', ['$scope', '$http', '$filter', '$window', ReportCtrl]);
   controllers.controller('MyCtrl1', [function() {}]);
   controllers.controller('MyCtrl2', [function() {}]);
   
-  function ReportCtrl($scope, $http, $filter) {
+  function ReportCtrl($scope, $http, $filter, $window) {
     var queryReceived = false;
     
-    // Change number of columns according to screen width
-    function setupMediaQueries() {
-      if (window.matchMedia) {
-        var smallMq = window.matchMedia("(max-width: 767px)");
-        var medMq = window.matchMedia("(min-width: 768px) and (max-width: 1199px)");
-        var largeMq = window.matchMedia("(min-width: 1200px)");
-        
-        var onMediaWidthChange = function (mq) {
-          if (smallMq.matches) {
-            $scope.forecastMaxCount = 5;
-          } else if (medMq.matches) {
-            $scope.forecastMaxCount = 7;
-          }
-          else if (largeMq.matches) {
-            $scope.forecastMaxCount = 9;
-          }
-          
-          // If responding to width change after startup, when $digest is not already in progress
-          if (mq) {
-            $scope.$apply();
-          }
-        };
-        
-        smallMq.addListener(onMediaWidthChange);
-        medMq.addListener(onMediaWidthChange);
-        largeMq.addListener(onMediaWidthChange);
-        
-        // Call immediately at startup to set correct forecastMaxCount
-        onMediaWidthChange();
+    function setForecastCountFromWindowWidth() {
+      var width = $($window).width();
+      if (width < 500) {
+        $scope.forecastMaxCount = 5;
+      } else if (width > 900) {
+        $scope.forecastMaxCount = 9;
       } else {
-        // TODO: Fallback if matchMedia() not supported
-      }
-    }
+        $scope.forecastMaxCount = Math.floor(width / 100);
+      }       
+    };
     
     //Return array of days. Each day has a name, and number of forecasts that day.
     function getForecastDays() {
@@ -140,20 +117,7 @@
       $scope.forecastMaxCount++;
     };
     
-    $scope.getCellStyle = function(cell) {
-      var translation = 'translate3d(' + (cell.col * 5) + 'rem, ' + (cell.row * 5) + 'rem, 0rem)';
-      var transform = {
-        'transform': translation,
-        '-webkit-transform': translation
-      };
-      if (cell.colspan) {
-        transform.width = (cell.colspan * 5) + 'rem';
-      }
-        
-      return transform;
-    };
-    
-    $scope.getLayoutStyle = function(cell) {
+    $scope.getLayoutStyle = function(cell, margin) {
       
       // Day and time rows half height
       function getEffeciveRow(realRow) {
@@ -178,14 +142,19 @@
       var colCount = $scope.forecastMaxCount + 1; // For ahead column
       var rowCount = $scope.aheadMaxCount + 1; // Day and time rows half height
       var tableWidth = $('#forecast-table').outerWidth();
-      var colWidth = tableWidth / colCount;
-      var rowHeight = colWidth; // Cell height is same cell width
-      var translate3d = 'translate3d(' + (cell.col * colWidth)+ 'px,' + (getEffeciveRow(cell.row) * rowHeight) + 'px,' + '0px)'; 
+
+      // Ensure integer pixels, to prevent sub-pixel blurring
+      var colWidth = Math.round(tableWidth / colCount);
+      var rowHeight = Math.round((colWidth * 0.95) * ($scope.showTemps ? 1.25 : 1));
+      
+      var translateX = cell.col * colWidth;
+      var translateY = getEffeciveRow(cell.row) * rowHeight;
+      var translate3d = 'translate3d(' + translateX + 'px, ' + translateY + 'px, ' + '0px)'; 
       
       transform['transform'] = translate3d;
       transform['-webkit-transform'] = translate3d;
   
-      transform.width = (colWidth * (cell.colspan || 1)) + 'px';      
+      transform.width = colWidth * (cell.colspan || 1) + 'px';
       transform.height = rowHeight + 'px'; 
         
       return transform;
@@ -223,11 +192,17 @@
     $scope.forecastIndices = [];
     
     $scope.aheadFreqs = [1, 3, 6, 12, 24];
-    $scope.aheadMaxCount = 6;
+    $scope.aheadMaxCount = 9;
     $scope.aheadFreq = 3;
     $scope.aheadIndices = [];
     
-    setupMediaQueries();
+    // Ensure cells are repositioned on every window resize
+    angular.element($window).bind('resize', function() {
+      setForecastCountFromWindowWidth();
+      $scope.$apply();
+    });
+    setForecastCountFromWindowWidth();
+    
     doForecastQuery();
   };
 }());

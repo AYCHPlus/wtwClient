@@ -1,7 +1,6 @@
 /* app css stylesheet */
 body {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 150%;
 }
 .menu {
   list-style: none;
@@ -58,58 +57,67 @@ td {
 	position: fixed;
 	float: left;
 	left: 5%;
-	top: 10%;
+	top: 5%;
 	z-index: 100; /* Allow mouseleave to work properly */	
 }
 
 #controls-button {
-	width: 1.5em;
-	height: 1.5em;
+	width: 2em;
+	height: 2em;
 }
 
 #controls-menu {
 	transition: opacity 0.25s ease-in-out;
 	-webkit-transition: opacity 0.25s ease-in-out;
-	background-color: rgba(255,255,255,.67);
+	background-color: rgba(255, 255, 255, .67);
 }
 
 #forecast-table {
 	position: relative; /* Allow child elements to be positioned/sized relative to table */
 	margin: auto;
-	width: 61.803398875%; /* 1 / golden-ratio */
-	height: 800px;
+	width: 80%;
+	max-width: 800px; /* Prevent line lengths from getting too long */
 }
 
-/* Limit width of forecast table for large screen sizes */
-@media (min-width: 1553.3126292px) { /* 960px * golden-ratio */
+@media only screen and (min-width: 1200px) {
+	body {
+		font-size: 110%;
+	}	
 	#forecast-table {
-		width: 960px;
+		width: 61.803398875%; /* (1 / golden-ratio) */		 
 	}
 }
 
-/* Make better use of available width on smaller screens */
-@media (max-width: 600px) {
+@media only screen and (max-width: 1199px) {
+	body {
+		font-size: 110%;
+	}
 	#forecast-table {
-		width: 80%;
+		width: 70%;
 	}
 }
 
-/* Minimum forecast table width */
-@media (max-width: 450px) {
-	#forecast-table {
-		width: 335px; 
+@media only screen and (max-width: 999px) {
+	body {
+		font-size: 90%;
 	}
 }
 
-.forecast-day,
-.forecast-time,
-.forecast {
-	text-align: center;
+@media only screen and (max-width: 499px) {
+	body {
+		font-size: 65%;
+	}
 }
 
-.forecast-time,
-.forecast {
-	width: 100%;
+#forecast-table .ahead-cell,
+#forecast-table .day-cell,
+#forecast-table .time-cell {
+	font-weight: bold;
+}
+
+#forecast-table .day {
+	border: 1px solid;
+	margin: 0em 0.25em;
 }
 
 #forecast-table .ahead-cell,
@@ -118,6 +126,12 @@ td {
 #forecast-table .forecast-cell {
 	position: absolute;
 	text-align: center;
+}
+
+#forecast-table .ahead,
+#forecast-table .forecast {
+	margin: 1px;
+	background-color: rgba(0, 0, 0, .1);
 }
 
 .vertical-center {
@@ -134,8 +148,8 @@ All transitions last the same time. Leave is immediate, move is delayed until
 leave completes, and enter is delayed until move completes.
 */
 #forecast-table .animate {
-	transition: transform 0.25s 0.25s ease-in-out; /* ng-move */
-	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out; /* ng-move */
+	transition: transform 0.25s 0.25s ease-in-out, width 0.25s 0.25s ease-in-out, height 0.25s 0.25s ease-in-out; /* ng-move */
+	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out, width 0.25s 0.25s ease-in-out, height 0.25s 0.25s ease-in-out; /* ng-move */
 }
 
 #forecast-table .animate.ng-enter {
