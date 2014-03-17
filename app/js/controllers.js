@@ -117,6 +117,8 @@
       $scope.forecastMaxCount++;
     };
     
+    // Ensure integer pixels, to prevent sub-pixel blurring and uneven borders
+    // Round cell width/height before further calculations
     $scope.getLayoutStyle = function(cell) {
       var showTempsHeightFactor = 1.25;
       
@@ -137,7 +139,6 @@
           break;
         }
         
-        // Ensure integer pixels, to prevent sub-pixel blurring
         return Math.round(rowHeight);
       };
       
@@ -145,7 +146,7 @@
       function getTranslateY(colWidth) {
         var translateY = 0;
         var baseRowHeight = colWidth;
-        var forecastRowHeight = baseRowHeight * ($scope.showTemps ? showTempsHeightFactor : 1);
+        var forecastRowHeight = Math.round(baseRowHeight * ($scope.showTemps ? showTempsHeightFactor : 1));
         
         switch (cell.row) {
         case 0:
@@ -159,16 +160,14 @@
           translateY = baseRowHeight + ((cell.row - 2) * forecastRowHeight);
         }
         
-        // Ensure integer pixels, to prevent sub-pixel blurring
-        return Math.round(translateY);
+        return translateY;
       };
       
       var transform = {};
       var colCount = $scope.forecastMaxCount + 1; // For ahead column
       var tableWidth = $('#forecast-table').outerWidth();
 
-      // Ensure integer pixels, to prevent sub-pixel blurring
-      var colWidth = Math.round(tableWidth / colCount);
+      var colWidth = Math.round(tableWidth / colCount);      
       
       var translateX = cell.col * colWidth;
       var translateY = getTranslateY(colWidth);
@@ -182,6 +181,7 @@
       transform['transform'] = translate3d;
       transform['-webkit-transform'] = translate3d;
       
+      // Ensure integer pixels, to prevent sub-pixel blurring and uneven borders
       width = colWidth * (cell.colspan || 1);
       height = getRowHeight(colWidth);
   

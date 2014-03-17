@@ -73,14 +73,18 @@ td {
 }
 
 #controls-button {
-	width: 2em;
-	height: 2em;
+	color: rgba(255, 255, 255, 0.66666666666);
+	font-size: 2em;
 }
 
 #controls-menu {
+	opacity: 0;
 	transition: opacity 0.25s ease-in-out;
 	-webkit-transition: opacity 0.25s ease-in-out;
-	background-color: rgba(255, 255, 255, .67);
+	padding: 1em;
+	margin-top: 1em;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
 }
 
 #forecast-table {
@@ -147,7 +151,7 @@ td {
 /* Semi-transparent background. Ensure all content stays within border, and
    that background is not applied to padding. */ 
 .background {
-	background-color: rgba(255, 255, 255, .33);
+	background-color: rgba(255, 255, 255, 0.33333333333);
 	box-sizing: border-box;
 	background-clip: content-box;
 	padding: 1px;
