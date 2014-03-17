@@ -117,46 +117,77 @@
       $scope.forecastMaxCount++;
     };
     
-    $scope.getLayoutStyle = function(cell, margin) {
+    $scope.getLayoutStyle = function(cell) {
+      var showTempsHeightFactor = 1.25;
+      
+       // Day and time rows half height
+      function getRowHeight(colWidth) {
+        var rowHeight = colWidth;
+        
+        switch (cell.row) {
+        case 0:
+        case 1:
+          rowHeight /= 2;
+          break;
+            
+        default:
+          if ($scope.showTemps) {
+            rowHeight *= showTempsHeightFactor;
+          }
+          break;
+        }
+        
+        // Ensure integer pixels, to prevent sub-pixel blurring
+        return Math.round(rowHeight);
+      };
       
       // Day and time rows half height
-      function getEffeciveRow(realRow) {
-        var effectiveRow = 0;
+      function getTranslateY(colWidth) {
+        var translateY = 0;
+        var baseRowHeight = colWidth;
+        var forecastRowHeight = baseRowHeight * ($scope.showTemps ? showTempsHeightFactor : 1);
         
-        switch (realRow) {
+        switch (cell.row) {
         case 0:
           break;
           
         case 1:
-          effectiveRow = 0.5;
+          translateY = colWidth / 2;
           break;
           
         default:
-          effectiveRow = realRow - 1;
+          translateY = baseRowHeight + ((cell.row - 2) * forecastRowHeight);
         }
         
-        return effectiveRow;
-      }
+        // Ensure integer pixels, to prevent sub-pixel blurring
+        return Math.round(translateY);
+      };
       
       var transform = {};
       var colCount = $scope.forecastMaxCount + 1; // For ahead column
-      var rowCount = $scope.aheadMaxCount + 1; // Day and time rows half height
       var tableWidth = $('#forecast-table').outerWidth();
 
       // Ensure integer pixels, to prevent sub-pixel blurring
       var colWidth = Math.round(tableWidth / colCount);
-      var rowHeight = Math.round((colWidth * 0.95) * ($scope.showTemps ? 1.25 : 1));
       
       var translateX = cell.col * colWidth;
-      var translateY = getEffeciveRow(cell.row) * rowHeight;
-      var translate3d = 'translate3d(' + translateX + 'px, ' + translateY + 'px, ' + '0px)'; 
+      var translateY = getTranslateY(colWidth);
+      var translate3d;
+      
+      var width;
+      var height;
+      
+      translate3d = 'translate3d(' + translateX + 'px, ' + translateY + 'px, ' + '0px)';
       
       transform['transform'] = translate3d;
       transform['-webkit-transform'] = translate3d;
+      
+      width = colWidth * (cell.colspan || 1);
+      height = getRowHeight(colWidth);
   
-      transform.width = colWidth * (cell.colspan || 1) + 'px';
-      transform.height = rowHeight + 'px'; 
-        
+      transform.width = width + 'px';
+      transform.height = height + 'px';
+      
       return transform;
     };
     
