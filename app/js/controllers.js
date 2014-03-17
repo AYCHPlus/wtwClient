@@ -109,14 +109,6 @@
       }
     };
     
-    $scope.onLess = function () {
-      $scope.forecastMaxCount--;
-    };
-    
-    $scope.onMore = function () {
-      $scope.forecastMaxCount++;
-    };
-    
     // Ensure integer pixels, to prevent sub-pixel blurring and uneven borders
     // Round cell width/height before further calculations
     $scope.getLayoutStyle = function(cell) {
