@@ -1,8 +1,8 @@
-<div id="controls" ng-init="menuOpacity = 0" ng-mouseleave="menuOpacity = 1">
+<div id="controls" ng-init="menuOpacity = 0" ng-mouseleave="menuOpacity = 0">
 
   <div ng-mouseenter="menuOpacity = 1" id="controls-button" class="fa fa-cog"></div>
   
-  <div id="controls-menu" style="opacity: {{menuOpacity}};">
+  <div id="controls-menu" ng-style="{ opacity: menuOpacity }">
     
     <div class="button-bar">
       <div>Temperatures</div>
@@ -23,21 +23,18 @@
     
     <br><br>
     
-    <div class="button-bar">
+    <div class="button-bar clearfix">
       <div>Show ahead time every (hours)</div>
       <div ng-repeat="freq in aheadFreqs" ng-click="$parent.aheadFreq = freq" ng-class="{ selected: freq == aheadFreq }" class="bar-button">
         {{freq}}
       </div>
     </div>
-    
-    <br><br>
-    
-    <button ng-click="onEarlier()">Earlier</button>
-    <button ng-click="onLater()">Later</button>
-  
   </div>
 
 </div>
+
+<div ng-click="onEarlier()" id="earlier" class="chevron fa fa-chevron-left"></div>
+<div ng-click="onLater()" id="later" class="chevron fa fa-chevron-right"></div>
 
 <div id="forecast-table">
   <div ng-repeat="(rowIndex, aheadIndex) in ['day-row', 'time-row'].concat(aheadIndices)" ng-switch on="aheadIndex" class="animate">
