@@ -82,11 +82,7 @@ td {
 }
 
 #controls-menu {
-	opacity: 0;
-	
-	transition: opacity 0.25s ease-in-out;
-	-webkit-transition: opacity 0.25s ease-in-out;
-	
+	/* opacity: 0; */
 	padding: 1em;
 	margin-top: 1rem; /* Root ems prevent content from jumping: why? */
 	border-radius: 0.25em; /* 4px / 16px */ 
@@ -238,31 +234,46 @@ Animations:
 All transitions last the same time. Leave is immediate, move is delayed until
 leave completes, and enter is delayed until move completes.
 */
-#forecast-table .animate {
+#forecast-table .animate-cell {
 	transition: transform 0.25s 0.25s ease-in-out, width 0.25s 0.25s ease-in-out, height 0.25s 0.25s ease-in-out; /* ng-move */
 	-webkit-transition: -webkit-transform 0.25s 0.25s ease-in-out, width 0.25s 0.25s ease-in-out, height 0.25s 0.25s ease-in-out; /* ng-move */
 }
 
-#forecast-table .animate.ng-enter {
+#forecast-table .animate-cell.ng-enter {
 	transition: opacity 0.25s 0.5s ease-in-out;
 	-webkit-transition: opacity 0.25s 0.5s ease-in-out;
 	opacity: 0;
 }
 
-#forecast-table .animate.ng-enter-active {
+#forecast-table .animate-cell.ng-enter-active {
 	opacity: 1;
 }
 
-#forecast-table .animate.ng-leave {
+#forecast-table .animate-cell.ng-leave {
 	transition: opacity 0.25s 0s ease-in-out;
 	-webkit-transition: opacity 0.25s 0s ease-in-out;
 	opacity: 1;
 }
 
-#forecast-table .animate.ng-leave.ng-leave-active {
+#forecast-table .animate-cell.ng-leave.ng-leave-active {
 	opacity: 0;
 }
 
+#controls-menu.animate-menu.ng-enter,
+#controls-menu.animate-menu.ng-leave {
+	-webkit-transition: opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
+}
+
+#controls-menu.animate-menu.ng-enter.ng-enter-active,
+#controls-menu.animate-menu.ng-leave {
+	opacity: 1;
+}
+
+#controls-menu.animate-menu.ng-enter,
+#controls-menu.animate-menu.ng-leave.ng-leave-active {
+	opacity: 0;
+}
 
 /* Weather icons */
 [class^="wi-"]:before,

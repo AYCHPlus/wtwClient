@@ -1,14 +1,14 @@
-<div id="controls" ng-init="menuOpacity = 0" ng-mouseleave="menuOpacity = 0">
+<div id="controls" ng-init="showMenu = false" ng-mouseleave="showMenu = false">
 
-  <div ng-mouseenter="menuOpacity = 1" id="controls-button" class="fa fa-cog"></div>
+  <div ng-mouseenter="showMenu = true" id="controls-button" class="fa fa-cog"></div>
   
-  <div id="controls-menu" ng-style="{ opacity: menuOpacity }">
+  <div id="controls-menu" ng-if="showMenu" class="animate-menu">
     
     <div class="button-bar">
       <div>Temperatures</div>
-      <div>
-        <div ng-click="showTemps = true" ng-class="{ selected: showTemps }" class="bar-button">Show</div>
-        <div ng-click="showTemps = false" ng-class="{ selected: !showTemps }" class="bar-button">Hide</div>
+      <div> <!-- Allow first-child/last-child selectors to work -->
+        <div ng-click="$parent.showTemps = true" ng-class="{ selected: showTemps }" class="bar-button">Show</div>
+        <div ng-click="$parent.showTemps = false" ng-class="{ selected: !showTemps }" class="bar-button">Hide</div>
       </div>
     </div>
     
@@ -16,8 +16,10 @@
     
     <div class="button-bar">
       <div>Show forecast times every (hours)</div>
-      <div ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq" ng-click="$parent.$parent.forecastFreq = freq" ng-class="{ selected: freq == forecastFreq }" class="bar-button">
-        {{freq}}
+      <div>
+        <div ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq" ng-click="$parent.$parent.$parent.forecastFreq = freq" ng-class="{ selected: freq == forecastFreq }" class="bar-button">
+          {{freq}}
+        </div>
       </div>
     </div>
     
@@ -25,8 +27,10 @@
     
     <div class="button-bar clearfix">
       <div>Show ahead time every (hours)</div>
-      <div ng-repeat="freq in aheadFreqs" ng-click="$parent.aheadFreq = freq" ng-class="{ selected: freq == aheadFreq }" class="bar-button">
-        {{freq}}
+      <div>
+        <div ng-repeat="freq in aheadFreqs" ng-click="$parent.$parent.aheadFreq = freq" ng-class="{ selected: freq == aheadFreq }" class="bar-button">
+          {{freq}}
+        </div>
       </div>
     </div>
   </div>
@@ -37,10 +41,10 @@
 <div ng-click="onLater()" id="later" class="chevron fa fa-chevron-right"></div>
 
 <div id="forecast-table">
-  <div ng-repeat="(rowIndex, aheadIndex) in ['day-row', 'time-row'].concat(aheadIndices)" ng-switch on="aheadIndex" class="animate">
+  <div ng-repeat="(rowIndex, aheadIndex) in ['day-row', 'time-row'].concat(aheadIndices)" ng-switch on="aheadIndex" class="animate-cell">
   
     <div ng-switch-when="day-row">
-      <div ng-repeat="(colIndex, day) in ['ahead-column'].concat(forecastDays) track by day.name" ng-if="day.name" ng-style="getLayoutStyle({ col: day.previousForecastCount + 1, row: rowIndex, colspan: day.forecastCount });" class="day-cell animate background">
+      <div ng-repeat="(colIndex, day) in ['ahead-column'].concat(forecastDays) track by day.name" ng-if="day.name" ng-style="getLayoutStyle({ col: day.previousForecastCount + 1, row: rowIndex, colspan: day.forecastCount });" class="day-cell animate-cell background">
         <div class="vertical-center day">
           {{day.name}}
         </div>
@@ -48,7 +52,7 @@
     </div>
     
     <div ng-switch-when="time-row">
-      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-if="forecastTimes[forecastIndex]" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="time-cell animate background">
+      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-if="forecastTimes[forecastIndex]" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="time-cell animate-cell background">
         <div class="vertical-center time">
           {{forecastTimes[forecastIndex] | date: 'ha'}}
         </div>
@@ -56,14 +60,14 @@
     </div>
     
     <div ng-switch-default>
-      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-init="forecast = forecasts[forecastIndex][aheadIndex]" ng-switch on="forecastIndex" class="animate">
+      <div ng-repeat="(colIndex, forecastIndex) in ['ahead-column'].concat(forecastIndices)" ng-init="forecast = forecasts[forecastIndex][aheadIndex]" ng-switch on="forecastIndex" class="animate-cell">
       
-        <div ng-switch-when="ahead-column" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="ahead-cell animate background">
+        <div ng-switch-when="ahead-column" ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="ahead-cell animate-cell background">
           <div ng-if="aheadIndex === 0" class="vertical-center ahead">Actual</div>
           <div ng-if="aheadIndex !== 0" class="vertical-center ahead">{{aheadTimes[aheadIndex]}}hr</div>
         </div>
         
-        <div ng-switch-default ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="forecast-cell animate background">
+        <div ng-switch-default ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="forecast-cell animate-cell background">
           <div ng-if="forecast.query_time" class="vertical-center forecast">
             <div class="{{forecast.weather_icon_name}}"></div>
             <div ng-if="showTemps" class="temperature">{{forecast.temp}}&deg;C</div>
