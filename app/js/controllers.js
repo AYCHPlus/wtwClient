@@ -9,8 +9,7 @@
   controllers.controller('MyCtrl2', [function() {}]);
   
   function ReportCtrl($scope, $http, $filter, $window) {
-    var queryReceived = false;
-    
+
     function setForecastCountFromWindowWidth() {
       var width = $($window).width();
       if (width < 500) {
@@ -29,7 +28,7 @@
       var i, lastDay, currentDay;      
       
       // If report has been received
-      if (queryReceived) {
+      if ($scope.queryReceived) {
         for (i = 0; i < $scope.forecastIndices.length; ++i) {
           currentDay = $filter('date')(times[$scope.forecastIndices[i]], 'EEE');
           if (currentDay !== lastDay) {
@@ -46,7 +45,7 @@
       var forecastIndices = [];
       var i;
       
-      if (queryReceived) {
+      if ($scope.queryReceived) {
         for (i = $scope.forecastOffset; forecastIndices.length < $scope.forecastMaxCount; i += (parseInt($scope.forecastFreq) / $scope.service.forecastFreq)) {
           forecastIndices.push(i);
         }
@@ -73,7 +72,7 @@
       $scope.forecastTimes = data.forecastTimes;
       $scope.aheadTimes = data.aheadTimes;
       $scope.forecasts = data.forecasts;
-      queryReceived = true;
+      $scope.queryReceived = true;
 
       $scope.forecastIndices = getForecastIndices();
       $scope.aheadIndices = getAheadIndices();
@@ -90,7 +89,7 @@
       var end = new Date();
       end.setDate(end.getDate() + maxDays);
       
-      var query = 'http://desktop:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
+      var query = 'http://www.vincibleweb.com:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
       
       var promise = $http.get(query);    
       promise.success(onForecastQuerySuccess);
@@ -208,6 +207,7 @@
       $scope.forecastDays = getForecastDays();
     });
     
+    $scope.queryReceived = false;
     $scope.showTemps = true;
     
     $scope.forecastFreqs = [1, 3, 6, 12, 24];

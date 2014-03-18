@@ -190,24 +190,40 @@ td {
 	}
 }
 
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 1200px) {
 	#forecast-table {
 		width: 70%;
 	}
 }
 
-@media only screen and (max-width: 999px) {
+@media only screen and (max-width: 1000px) {
 	body {
 		font-size: 90%;
 	}
 }
 
-@media only screen and (max-width: 499px) {
+@media only screen and (max-width: 500px) {
 	body {
-		font-size: 65%;
+		font-size: 75%;
 	}
-	#forecast-table .temperature {
-		margin-top: -10%;
+}
+
+@media only screen and (max-width: 450px) {
+	body {
+		font-size: 70%;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	body {
+		font-size: 65%%;
+	}
+}
+
+@media only screen and (max-width: 360px) {
+	[class^="wi-"]:before,
+	[class*=" wi-"]:before {
+		margin-bottom: -0.0625em; /* -1px / 16px */
 	}
 }
 
@@ -237,6 +253,7 @@ td {
 	min-width: 33.3333333333%;
 	font-size: 80%;
 	font-weight: bold;
+	border-radius: 0.25em;
 }
 
 /* Semi-transparent background. Ensure all content stays within border, and
@@ -298,6 +315,6 @@ leave completes, and enter is delayed until move completes.
 /* Weather icons */
 [class^="wi-"]:before,
 [class*=" wi-"]:before {
-	font-size: 2.5em;
+	font-size: 2em;
 	display: block; /* Ensure weather icons appear on own line */
 }
