@@ -43,6 +43,21 @@ html {
 }
 
 /* Report formatting */
+header {
+	text-align: center;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 300;
+}
+
+#title {	
+	font-size: 3em;
+	margin-bottom: -0.2em;
+}
+
+#info-line {
+	margin-bottom: 1em;
+}
+
 table, th, td {
 	border: 1px solid;
 	/* border-spacing: 0; */
@@ -67,12 +82,14 @@ td {
 #controls {
 	position: fixed;
 	float: left;
-	left: 5%;
-	top: 5%;
+	right: 5%;
+	top: 7.5%;
 	z-index: 100; /* Allow mouseleave to work properly */	
 }
 
 #controls-button {
+	float: right;
+	margin-bottom: 1rem;
 	color: rgba(255, 255, 255, 0.66666666666);
 	font-size: 2em;
 }
@@ -82,9 +99,8 @@ td {
 }
 
 #controls-menu {
-	/* opacity: 0; */
-	padding: 1em;
-	margin-top: 1rem; /* Root ems prevent content from jumping: why? */
+	clear: right;
+	padding: 1rem; /* Root ems prevent content from jumping: why? */
 	border-radius: 0.25em; /* 4px / 16px */ 
 	background-color: rgba(0, 0, 0, 0.5);
 	color: white;
@@ -175,9 +191,6 @@ td {
 }
 
 @media only screen and (max-width: 1199px) {
-	body {
-		font-size: 110%;
-	}
 	#forecast-table {
 		width: 70%;
 	}

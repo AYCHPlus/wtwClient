@@ -1,3 +1,8 @@
+<header>
+  <div id="title">Whatever the Weather</div>
+  <div id="info-line">{{location.name}} ({{location.lat}}, {{location.long}}) | {{service.name}}</div>
+</header>
+
 <div id="controls" ng-init="showMenu = false" ng-mouseleave="showMenu = false">
 
   <div ng-mouseenter="showMenu = true" id="controls-button" class="fa fa-cog"></div>
@@ -17,7 +22,7 @@
     <div class="button-bar">
       <div>Show forecast times every (hours)</div>
       <div>
-        <div ng-repeat="freq in forecastFreqs" ng-if="freq >= availableForecastFreq" ng-click="$parent.$parent.$parent.forecastFreq = freq" ng-class="{ selected: freq == forecastFreq }" class="bar-button">
+        <div ng-repeat="freq in forecastFreqs" ng-if="freq >= service.forecastFreq" ng-click="$parent.$parent.$parent.forecastFreq = freq" ng-class="{ selected: freq == forecastFreq }" class="bar-button">
           {{freq}}
         </div>
       </div>

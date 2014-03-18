@@ -22,7 +22,7 @@
       }       
     };
     
-    //Return array of days. Each day has a name, and number of forecasts that day.
+    // Return array of days. Each day has a name, and number of forecasts that day.
     function getForecastDays() {
       var days = [];
       var times = $scope.forecastTimes;
@@ -47,7 +47,7 @@
       var i;
       
       if (queryReceived) {
-        for (i = $scope.forecastOffset; forecastIndices.length < $scope.forecastMaxCount; i += (parseInt($scope.forecastFreq) / $scope.availableForecastFreq)) {
+        for (i = $scope.forecastOffset; forecastIndices.length < $scope.forecastMaxCount; i += (parseInt($scope.forecastFreq) / $scope.service.forecastFreq)) {
           forecastIndices.push(i);
         }
       }
@@ -67,7 +67,9 @@
     };
     
     function onForecastQuerySuccess(data) {
-      $scope.availableForecastFreq = data.forecastFreq;
+      $scope.service = data.service;      
+      $scope.location = data.location;
+      
       $scope.forecastTimes = data.forecastTimes;
       $scope.aheadTimes = data.aheadTimes;
       $scope.forecasts = data.forecasts;
@@ -88,14 +90,14 @@
       var end = new Date();
       end.setDate(end.getDate() + maxDays);
       
-      var query = 'http://www.vincibleweb.com:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
+      var query = 'http://desktop:3000/wtw/data/json/forecasts?serviceId=1&locationId=1&start=' + start.toJSON() + '&end=' + end.toJSON();
       
       var promise = $http.get(query);    
       promise.success(onForecastQuerySuccess);
     };
     
     $scope.onEarlier = function() {
-      $scope.forecastOffset -= ($scope.forecastFreq / $scope.availableForecastFreq);
+      $scope.forecastOffset -= ($scope.forecastFreq / $scope.service.forecastFreq);
       if ($scope.forecastOffset < 0) {
         $scope.forecastOffset = 0;
       }
@@ -103,7 +105,7 @@
     
     $scope.onLater = function() {
       var maxForecastOffset = $scope.forecastTimes.length - 1;
-      $scope.forecastOffset += ($scope.forecastFreq / $scope.availableForecastFreq);
+      $scope.forecastOffset += ($scope.forecastFreq / $scope.service.forecastFreq);
       if ($scope.forecastOffset > maxForecastOffset) {
         $scope.forecastOffset = maxForecastOffset;
       }
