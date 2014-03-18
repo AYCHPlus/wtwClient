@@ -75,7 +75,7 @@
         <div ng-switch-default ng-style="getLayoutStyle({ col: colIndex, row: rowIndex });" class="forecast-cell animate-cell background">
           <div ng-if="forecast.query_time" class="vertical-center forecast">
             <div class="{{forecast.weather_icon_name}}"></div>
-            <div ng-if="showTemps" class="temperature">{{forecast.temp}}&deg;C</div>
+            <div ng-if="showTemps" class="temperature" ng-class="'temp' + forecast.temp">{{forecast.temp}}&deg;</div>
           </div>
         </div>
       </div>
