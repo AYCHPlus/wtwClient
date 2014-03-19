@@ -1,7 +1,7 @@
 <header>
   <div id="title">Whatever the Weather</div>
   <div ng-if="queryReceived" id="info-line">{{location.name}} ({{location.lat}}, {{location.long}}) | {{service.name}}</div>
-  <div ng-if="!queryReceived" id="info-line">Your weather information's on its way...</div>
+  <div ng-if="!queryReceived" id="info-line">Your weather information is on its way...</div>
 </header>
 
 <div ng-if="queryReceived">

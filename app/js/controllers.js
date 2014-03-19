@@ -66,6 +66,17 @@
     };
     
     function onForecastQuerySuccess(data) {
+      // Want to show next forecast from present time in position 5
+      function getInitialOffset() {
+        var offset;
+        var now = new Date();
+        for (offset = 0; new Date($scope.forecastTimes[offset]) < now; ++offset) {          
+        }
+        
+        // offset is such that next forecast will now be shown in position 1 
+        return (offset - 4 * ($scope.forecastFreq / $scope.service.forecastFreq));
+      };
+      
       $scope.service = data.service;      
       $scope.location = data.location;
       
@@ -74,6 +85,8 @@
       $scope.forecasts = data.forecasts;
       $scope.queryReceived = true;
 
+      // Initial offset must be set before indices/days are calculated
+      $scope.forecastOffset = getInitialOffset();
       $scope.forecastIndices = getForecastIndices();
       $scope.aheadIndices = getAheadIndices();
       $scope.forecastDays = getForecastDays();
@@ -94,7 +107,7 @@
       var promise = $http.get(query);    
       promise.success(onForecastQuerySuccess);
     };
-    
+        
     $scope.onEarlier = function() {
       $scope.forecastOffset -= ($scope.forecastFreq / $scope.service.forecastFreq);
       if ($scope.forecastOffset < 0) {
